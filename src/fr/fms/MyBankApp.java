@@ -50,5 +50,8 @@ public class MyBankApp {
 		// Test List of a user by email
 		bankJob.listAccounts("julie.jolie@xmail.com");
 		bankJob.listAccounts("robert.dupont@xmail.com");
+
+		System.out.println("----last exo----");
+		bankJob.displayListOFTransactions(200300400);
 	}
 }

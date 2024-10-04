@@ -1,18 +1,23 @@
 package fr.fms.business;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 import fr.fms.entities.Account;
 import fr.fms.entities.CurrentAccount;
 import fr.fms.entities.SavingAccount;
+import fr.fms.entities.Transaction;
 
 public class IBankImpl implements IBank {
 
 	private ArrayList<Account> listOfAccounts;
+	private HashMap<String, Transaction> listOfTransactions;
 
 	// Constructeur
 	public IBankImpl() {
 		this.listOfAccounts = new ArrayList<>();
+		this.listOfTransactions = new HashMap<>();
 	}
 
 	// Ajouter un compte
@@ -22,11 +27,12 @@ public class IBankImpl implements IBank {
 
 	// Déposer de l'argent sur un compte
 	public void deposit(int accountId, double amount, boolean transfer) {
-		boolean foundAcc = false;
+		boolean foundAcc = transfer;
 
 		for (Account account : listOfAccounts) {
 			if (account.getIdAccount() == accountId) {
 				account.setBalanceAccount(account.getBalanceAccount() + amount);
+				listOfTransactions.put("Versement", new Transaction(new Date(), amount, account.getIdAccount()));
 				if (!transfer)
 					System.out.printf("Versement de %,d€ sur le compte n° %d%n", (int) amount, accountId);
 				foundAcc = true;
@@ -60,6 +66,7 @@ public class IBankImpl implements IBank {
 			if (account.getIdAccount() == accountId) {
 				if (checkIfCanBeDebited(account, amount)) {
 					account.setBalanceAccount(account.getBalanceAccount() - amount);
+					listOfTransactions.put("Retrait", new Transaction(new Date(), amount, account.getIdAccount()));
 					if (!transfer)
 						System.out.printf("Retrait de %,d€ sur le compte n° %d %n", (int) amount, accountId);
 					foundAcc = true;
@@ -126,5 +133,19 @@ public class IBankImpl implements IBank {
 				System.out.println(acc);
 			}
 		}
+	}
+
+	public void displayListOFTransactions(int accountId) {
+		listOfTransactions.forEach((key, transaction) -> {
+
+			System.out.println(key + " : " + transaction);
+
+		});
+
+		/*
+		 * listOfTransactions.forEach((key, transaction) -> { if
+		 * (transaction.getAccountId() == accountId) { System.out.println(key + " : " +
+		 * transaction); } });
+		 */
 	}
 }
