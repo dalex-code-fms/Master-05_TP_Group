@@ -1,23 +1,24 @@
 package fr.fms.entities;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Account {
 
 	private int idAccount;
-	private Date dateCreateAccount;
+	private String dateCreateAccount;
 	private double balanceAccount;
 	protected User user;
 
 	public Account(int idAccount, Date dateCreateAccount, double balanceAccount) {
 		this.idAccount = idAccount;
-		this.dateCreateAccount = dateCreateAccount;
+		this.dateCreateAccount = new SimpleDateFormat("yyyy-MM-dd").format(dateCreateAccount);
 		this.balanceAccount = balanceAccount;
 	}
 
 	public Account(int idAccount, Date dateCreateAccount, double balanceAccount, User user) {
 		this.idAccount = idAccount;
-		this.dateCreateAccount = dateCreateAccount;
+		this.dateCreateAccount = new SimpleDateFormat("yyyy-MM-dd").format(dateCreateAccount);
 		this.balanceAccount = balanceAccount;
 		this.user = user;
 	}
@@ -38,12 +39,12 @@ public class Account {
 		this.balanceAccount = balanceAccount;
 	}
 
-	public Date getDateCreateAccount() {
+	public String getDateCreateAccount() {
 		return dateCreateAccount;
 	}
 
 	public void setDateCreateAccount(Date dateCreateAccount) {
-		this.dateCreateAccount = dateCreateAccount;
+		this.dateCreateAccount = new SimpleDateFormat("yyyy-MM-dd").format(dateCreateAccount);
 	}
 
 	public User getUser() {
